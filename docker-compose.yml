@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: test_task
+    ports:
+      - '5454:5432'
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
