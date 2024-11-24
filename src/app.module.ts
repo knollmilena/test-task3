@@ -7,8 +7,8 @@ import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
-    DatabaseModule,
-    ConfigModule.forRoot(configModuleOptions),
+    // DatabaseModule,
+    // ConfigModule.forRoot(configModuleOptions),
     UserModule,
     FileModule,
   ],
