@@ -42,13 +42,36 @@ export class FileService {
           },
         }),
       );
-      return response.data;
+      const users = response.data;
+      const userIds = response.data.map((user) => user.id);
+      const statuses = await this.getStatusUser(userIds, token);
+
+      const result = users.map((user) => {
+        const statusObj = statuses.find((status) => status.id === user.id);
+        return { ...user, status: statusObj ? statusObj.status : 'Unknown' };
+      });
+      return result;
     } catch (e) {
       throw new HttpException(
         'Информация доступна только авторизированным пользователям',
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  async getStatusUser(ids: number[], token) {
+    const response = await firstValueFrom(
+      this.httpService.post(
+        'http://94.103.91.4:5000/clients',
+        { userIds: ids },
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
+      ),
+    );
+    return response.data;
   }
 
   async createXls(users, res: Response) {
@@ -65,6 +88,7 @@ export class FileService {
       'city',
       'phone',
       'email',
+      'status',
     ];
 
     worksheet.addRow(headers);
@@ -79,6 +103,7 @@ export class FileService {
         user.city,
         user.phone,
         user.email,
+        user.status,
       ]);
     });
 
