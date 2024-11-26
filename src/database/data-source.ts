@@ -12,7 +12,7 @@ const options: DataSourceOptions = {
   username: configService.get('DB_USER'),
   password: configService.get('DB_PASSWORD'),
   database: configService.get('DB_NAME'),
-  migrations: ['dist/src/database/migrations/*{.ts,.js}'],
+  migrations: ['dist/database/migrations/*{.ts,.js}'],
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
 };
 
